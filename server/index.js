@@ -19,11 +19,13 @@ const jobRoutes = require('./routes/jobs');
 const applicationRoutes = require('./routes/applications');
 const interviewRoutes = require('./routes/interviews');
 const decisionRoutes = require('./routes/decisions');
+const statsRoutes = require('./routes/stats');
 
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/interviews', interviewRoutes);
 app.use('/api/decisions', decisionRoutes);
+app.use('/api/stats', statsRoutes);
 
 // Start Server
 mongoose.connect(process.env.MONGODB_URI)

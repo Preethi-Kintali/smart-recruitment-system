@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Application = require('../models/Application');
 const { generateOfferLetter } = require('../utils/pdfGenerator');
+const EmailService = require('../services/email.service');
+const AIService = require('../services/ai.service');
 
 router.post('/finalize', async (req, res) => {
     try {
@@ -30,6 +32,14 @@ router.post('/finalize', async (req, res) => {
             message: `Candidate ${decision} successfully`,
             offerPath: offerUrl ? `/uploads/${offerUrl.split('\\').pop()}` : null
         });
+
+        // Send Email
+        if (decision === 'Selected' && offerUrl) {
+            await EmailService.sendOfferLetter(app.candidateId.email, app.candidateId.fullName, app.jobId.title, offerUrl);
+        } else if (decision === 'Rejected') {
+            const reason = await AIService.generateRejectionReason(app.candidateId, app.jobId.title);
+            await EmailService.sendRejection(app.candidateId.email, app.candidateId.fullName, app.jobId.title, reason);
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

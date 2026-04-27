@@ -3,6 +3,7 @@ const router = express.Router();
 const Interview = require('../models/Interview');
 const Application = require('../models/Application');
 const AIService = require('../services/ai.service');
+const EmailService = require('../services/email.service');
 
 // Schedule Interview & Generate AI Questions
 router.post('/schedule', async (req, res) => {
@@ -29,6 +30,17 @@ router.post('/schedule', async (req, res) => {
         // Update application status
         app.status = 'Interview';
         await app.save();
+
+        // Send Email Invite
+        await EmailService.sendInterviewInvite(
+            app.candidateId.email, 
+            app.candidateId.fullName, 
+            app.jobId.title, 
+            date, 
+            time, 
+            mode, 
+            interview.meetingLink
+        );
 
         res.status(201).json(interview);
     } catch (error) {

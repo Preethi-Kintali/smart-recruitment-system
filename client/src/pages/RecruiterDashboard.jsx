@@ -14,14 +14,17 @@ const RecruiterDashboard = () => {
 
   useEffect(() => {
     fetchJobs();
-    // In a real app, stats would come from an API
-    setStats({
-      total: 12,
-      shortlisted: 4,
-      rejected: 5,
-      pending: 3
-    });
+    fetchStats();
   }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/stats');
+      setStats(res.data);
+    } catch (err) {
+      console.error("Stats fetch error:", err);
+    }
+  };
 
   const fetchJobs = async () => {
     try {

@@ -7,6 +7,8 @@ const candidateSchema = new mongoose.Schema({
     education: { type: String },
     skills: [{ type: String }],
     experience: { type: String },
+    projects: [{ type: String }],
+    certifications: [{ type: String }],
     resumeUrl: { type: String },
     createdAt: { type: Date, default: Date.now }
 });

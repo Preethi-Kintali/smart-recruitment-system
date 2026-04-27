@@ -1,5 +1,7 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const dotenv = require('dotenv');
+const pdf = require('pdf-parse');
+const fs = require('fs');
 dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -22,23 +24,45 @@ class AIService {
     }
   }
 
-  async parseResume(text) {
-    // In a real app, you'd extract text from PDF first. 
-    // Here we simulate the extraction or use a detailed prompt.
-    return {
-      skills: ['JavaScript', 'React', 'Node.js', 'MongoDB', 'REST APIs', 'Git'],
-      experience: '3+ years of web development',
-      education: 'Bachelor in Computer Science',
-      projects: ['Personal Portfolio', 'E-commerce App'],
-      certifications: ['Full Stack Dev Certificate']
-    };
+  async parseResume(filePath) {
+    try {
+      const dataBuffer = fs.readFileSync(filePath);
+      const data = await pdf(dataBuffer);
+      const text = data.text;
+
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const prompt = `Extract the following details from this resume text:
+      - skills (array of strings)
+      - projects (array of strings)
+      - education (string)
+      - experience (string)
+      - certifications (array of strings)
+      
+      Resume Text: ${text}
+      
+      Provide a valid JSON response only.`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      let cleanedText = response.text().replace(/```json|```/g, "").trim();
+      return JSON.parse(cleanedText);
+    } catch (error) {
+      console.error("AI Resume Parsing Error:", error);
+      return {
+        skills: [],
+        projects: [],
+        education: 'Not specified',
+        experience: 'Not specified',
+        certifications: []
+      };
+    }
   }
 
   async calculateATSScore(resumeData, job) {
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const prompt = `Compare this candidate resume data with the job description.
-      Resume: ${JSON.stringify(resumeData)}
+      Resume Data: ${JSON.stringify(resumeData)}
       Job: ${job.title}, Skills Required: ${job.skills.join(', ')}
       
       Provide a JSON response with:
@@ -53,7 +77,22 @@ class AIService {
       return JSON.parse(text);
     } catch (error) {
       console.error("AI ATS Scoring Error:", error);
-      return { score: 75, missingKeywords: [], suggestions: "Keep up the good work!", gapAnalysis: "No significant gaps found." };
+      return { score: 0, missingKeywords: [], suggestions: "Could not analyze resume.", gapAnalysis: "Error in analysis." };
+    }
+  }
+
+  async generateRejectionReason(resumeData, jobTitle) {
+    try {
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const prompt = `Generate a professional, polite, and constructive rejection reason for a candidate who applied for ${jobTitle} but was not selected.
+      Candidate Data: ${JSON.stringify(resumeData)}
+      Keep it brief and encouraging.`;
+      
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      return response.text().trim();
+    } catch (error) {
+      return "Your profile does not currently match our specific requirements for this role.";
     }
   }
 
