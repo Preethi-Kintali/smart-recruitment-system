@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Save, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
 const CreateJob = () => {
@@ -13,6 +14,8 @@ const CreateJob = () => {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   const handleGenerateAI = async () => {
     if (!formData.title) return alert('Please enter a job title first');
@@ -38,7 +41,8 @@ const CreateJob = () => {
       const skillsArray = formData.skills.split(',').map(s => s.trim());
       await axios.post('http://localhost:5000/api/jobs', {
         ...formData,
-        skills: skillsArray
+        skills: skillsArray,
+        recruiterId: user?.id || user?._id
       });
       alert('Job Posted Successfully!');
       navigate('/recruiter');

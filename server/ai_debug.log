@@ -1,0 +1,27 @@
+Generating JD for: cloud engineer
+AI Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+Generating JD for: cloud engineer
+AI Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+Generating JD for: cloud engineer
+AI Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+Generating JD for: ml engineer
+AI Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+Generating JD for: cloud engineer
+Generating JD for: ml intern
+[2026-04-27T11:45:53.579Z] Generating JD for: backend developer 
+[2026-04-27T11:47:30.057Z] Parsing Resume: uploads\1777290449780.pdf
+[2026-04-27T11:47:30.058Z] Parsing Error: Class constructors cannot be invoked without 'new'
+[2026-04-27T11:47:30.125Z] Calculating ATS Score for: backend developer 
+[2026-04-27T12:04:18.198Z] Generating JD for: data scientist
+[2026-04-27T12:05:15.749Z] Parsing Resume: uploads\1777291515508.pdf
+[2026-04-27T12:05:16.035Z] Parsing Error: Extracted text is empty
+[2026-04-27T12:05:16.098Z] Calculating ATS Score for: data scientist
+[2026-04-27T12:16:46.199Z] Generating JD for: frontend intern
+[2026-04-27T12:19:30.847Z] Parsing Resume: uploads\1777292370602.pdf
+[2026-04-27T12:19:31.598Z] Parsing Error: text.trim is not a function
+[2026-04-27T12:19:31.658Z] Calculating ATS Score for: frontend intern
+[2026-04-27T12:27:21.832Z] Parsing Resume: uploads\1777292840928.pdf
+[2026-04-27T12:27:36.428Z] Calculating ATS Score for: frontend intern
+[2026-04-27T12:28:54.160Z] ATS Score Error: Expected double-quoted property name in JSON at position 879 (line 6 column 1)
+[2026-04-27T12:38:47.805Z] Parsing Resume: uploads\1777293527531.pdf
+[2026-04-27T12:39:17.608Z] Calculating ATS Score for: frontend intern

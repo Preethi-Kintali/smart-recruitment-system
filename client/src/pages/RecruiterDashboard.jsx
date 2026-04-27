@@ -44,7 +44,7 @@ const RecruiterDashboard = () => {
         </Link>
       </div>
 
-      <div className="grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginTop: '2rem' }}>
+      <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', marginTop: '2rem', gap: '1rem' }}>
         <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center' }}>
           <Users size={24} color="#6366f1" />
           <h2 style={{ fontSize: '2rem' }}>{stats.total}</h2>
@@ -56,14 +56,19 @@ const RecruiterDashboard = () => {
           <p>Shortlisted</p>
         </div>
         <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center' }}>
+          <Clock size={24} color="#f59e0b" />
+          <h2 style={{ fontSize: '2rem' }}>{stats.pending}</h2>
+          <p>Interview Phase</p>
+        </div>
+        <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center' }}>
+          <CheckCircle size={24} color="#8b5cf6" />
+          <h2 style={{ fontSize: '2rem' }}>{stats.hired || 0}</h2>
+          <p>Total Hired</p>
+        </div>
+        <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center' }}>
           <XCircle size={24} color="#ef4444" />
           <h2 style={{ fontSize: '2rem' }}>{stats.rejected}</h2>
           <p>Rejected</p>
-        </div>
-        <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center' }}>
-          <Clock size={24} color="#f59e0b" />
-          <h2 style={{ fontSize: '2rem' }}>{stats.pending}</h2>
-          <p>Pending Interviews</p>
         </div>
       </div>
 

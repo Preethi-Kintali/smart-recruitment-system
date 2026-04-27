@@ -43,20 +43,35 @@ class EmailService {
         return this.sendEmail(email, subject, html);
     }
 
-    async sendInterviewInvite(email, name, jobTitle, date, time, mode, meetingLink) {
-        const subject = `Interview Invitation: ${jobTitle}`;
+    async sendShortlisted(email, name, jobTitle) {
+        const subject = `Great News! You've been Shortlisted for ${jobTitle}`;
         const html = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                 <h2>Congratulations ${name}!</h2>
-                <p>You have been shortlisted for an interview for the <strong>${jobTitle}</strong> position.</p>
-                <p><strong>Details:</strong></p>
-                <ul>
-                    <li><strong>Date:</strong> ${date}</li>
-                    <li><strong>Time:</strong> ${time}</li>
-                    <li><strong>Mode:</strong> ${mode}</li>
-                    <li><strong>Link/Location:</strong> <a href="${meetingLink}">${meetingLink}</a></li>
-                </ul>
-                <p>Please be prepared to discuss your technical skills and previous projects.</p>
+                <p>We are pleased to inform you that you have been <strong>Shortlisted</strong> for the <strong>${jobTitle}</strong> position.</p>
+                <p>Our recruitment team will reach out to you shortly to schedule the next steps.</p>
+                <p>Best regards,<br/>The Hiring Team</p>
+            </div>
+        `;
+        return this.sendEmail(email, subject, html);
+    }
+
+    async sendInterviewInvite(email, name, jobTitle, interviewLink) {
+        console.log(`[EMAIL_SERVICE] Preparing interview invite for ${email}`);
+        const subject = `Interview Invitation: ${jobTitle} - AI Mock Interview`;
+        const html = `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
+                <h2 style="color: #6366f1;">Congratulations ${name}!</h2>
+                <p>We are impressed with your profile and would like to invite you for an <strong>AI-Powered Mock Interview</strong> for the <strong>${jobTitle}</strong> position.</p>
+                <div style="background: #f9fafb; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #6366f1;">
+                    <p style="margin: 0;"><strong>Step 1:</strong> Prepare your camera and microphone.</p>
+                    <p style="margin: 5px 0;"><strong>Step 2:</strong> Click the link below to start the automated interview.</p>
+                    <p style="margin: 0;"><strong>Step 3:</strong> Our AI will ask you technical questions based on the job requirements.</p>
+                </div>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${interviewLink}" style="background: #6366f1; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Start AI Interview Now</a>
+                </div>
+                <p>Please complete this at your earliest convenience. Your performance will be reviewed by our hiring team.</p>
                 <p>Best regards,<br/>The Hiring Team</p>
             </div>
         `;
@@ -76,6 +91,42 @@ class EmailService {
             </div>
         `;
         return this.sendEmail(email, subject, html);
+    }
+
+    async sendOfflineInterviewInvite(email, name, jobTitle, date, place) {
+        const subject = `In-Person Interview: ${jobTitle}`;
+        const html = `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
+                <h2 style="color: #10b981;">Final Interview Round!</h2>
+                <p>Hello ${name},</p>
+                <p>Based on your excellent performance in the AI Mock Interview, we would like to invite you for a <strong>final interview round</strong> for the <strong>${jobTitle}</strong> position.</p>
+                <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #10b981;">
+                    <p style="margin: 0;"><strong>Date & Time:</strong> ${date}</p>
+                    <p style="margin: 5px 0;"><strong>Location/Link:</strong> ${place}</p>
+                </div>
+                <p>Please confirm your availability by replying to this email. We look forward to meeting you in person!</p>
+                <p>Best regards,<br/>The Hiring Team</p>
+            </div>
+        `;
+        return this.sendEmail(email, subject, html);
+    }
+
+    async sendInterviewReport(recruiterEmail, candidateName, jobTitle, report) {
+        const subject = `Interview Report: ${candidateName} for ${jobTitle}`;
+        const html = `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
+                <h2 style="color: #6366f1;">AI Mock Interview Completed</h2>
+                <p>Hello,</p>
+                <p>The candidate <strong>${candidateName}</strong> has completed the AI Mock Interview for the <strong>${jobTitle}</strong> position.</p>
+                <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #6366f1;">
+                    <h4 style="margin: 0 0 10px 0;">Performance Summary:</h4>
+                    <p style="margin: 0; font-style: italic;">"${report}"</p>
+                </div>
+                <p>You can view the full transcript and take further action in the <a href="http://localhost:5173/recruiter">Recruiter Portal</a>.</p>
+                <p>Best regards,<br/>Smart Recruitment AI</p>
+            </div>
+        `;
+        return this.sendEmail(recruiterEmail, subject, html);
     }
 
     async sendOfferLetter(email, name, jobTitle, pdfPath) {

@@ -18,15 +18,25 @@ router.get('/', async (req, res) => {
             shortlisted: 0,
             rejected: 0,
             pending: 0,
-            selected: 0
+            hired: 0
         };
 
         stats.forEach(s => {
+            const status = (s._id || '').toLowerCase();
             formattedStats.total += s.count;
-            if (s._id === 'Screening' || s._id === 'Interview') formattedStats.shortlisted += s.count;
-            if (s._id === 'Rejected') formattedStats.rejected += s.count;
-            if (s._id === 'Applied') formattedStats.pending += s.count;
-            if (s._id === 'Selected') formattedStats.selected += s.count;
+            
+            if (['shortlisted', 'screening'].includes(status)) {
+                formattedStats.shortlisted += s.count;
+            } else if (status === 'rejected') {
+                formattedStats.rejected += s.count;
+            } else if (['interview', 'offlineinterview'].includes(status)) {
+                formattedStats.pending += s.count;
+            } else if (status === 'applied') {
+                // Count Applied as Pending if that's what user expects
+                formattedStats.shortlisted += s.count; 
+            } else if (status === 'hired' || status === 'selected') {
+                formattedStats.hired += s.count;
+            }
         });
 
         res.json(formattedStats);

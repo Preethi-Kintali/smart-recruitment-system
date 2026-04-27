@@ -6,6 +6,7 @@ const jobSchema = new mongoose.Schema({
     skills: [{ type: String }],
     experience: { type: String },
     qualification: { type: String },
+    recruiterId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     createdAt: { type: Date, default: Date.now }
 });
 

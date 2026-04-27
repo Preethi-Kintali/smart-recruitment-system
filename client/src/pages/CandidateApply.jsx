@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Upload, Send, CheckCircle2 } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Upload, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
 const CandidateApply = () => {
+  const { jobId } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  
   const [jobs, setJobs] = useState([]);
-  const [selectedJob, setSelectedJob] = useState('');
+  const [selectedJob, setSelectedJob] = useState(jobId || '');
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
+    fullName: user?.name || '',
+    email: user?.email || '',
     phone: '',
     skills: '',
     experience: '',
@@ -40,6 +46,7 @@ const CandidateApply = () => {
     const data = new FormData();
     data.append('jobId', selectedJob);
     data.append('resume', resume);
+    if (user?.id) data.append('userId', user.id);
     Object.keys(formData).forEach(key => data.append(key, formData[key]));
 
     try {
@@ -48,7 +55,8 @@ const CandidateApply = () => {
       setSubmitted(true);
     } catch (err) {
       console.error(err);
-      alert('Application submission failed');
+      const msg = err.response?.data?.message || 'Application submission failed';
+      alert(msg);
     } finally {
       setLoading(false);
     }
@@ -85,23 +93,40 @@ const CandidateApply = () => {
       <h1>Join Our Team</h1>
       <p>Submit your application and let our AI find the best fit for you.</p>
 
+      {/* Job Details Section */}
+      {selectedJob && jobs.find(j => j._id === selectedJob) && (
+        <div className="glass-card" style={{ maxWidth: '800px', marginTop: '2rem', borderLeft: '4px solid var(--accent)' }}>
+          <h2 style={{ marginBottom: '1rem' }}>{jobs.find(j => j._id === selectedJob).title}</h2>
+          <div style={{ display: 'flex', gap: '2rem', marginBottom: '1.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+            <span><strong>Experience:</strong> {jobs.find(j => j._id === selectedJob).experience}</span>
+            <span><strong>Qualification:</strong> {jobs.find(j => j._id === selectedJob).qualification || 'Any'}</span>
+          </div>
+          <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
+            <h4 style={{ marginBottom: '0.5rem', color: 'var(--accent)' }}>Description</h4>
+            <p style={{ whiteSpace: 'pre-wrap', color: 'var(--text-main)' }}>{jobs.find(j => j._id === selectedJob).description}</p>
+          </div>
+        </div>
+      )}
+
       <div className="glass-card" style={{ maxWidth: '800px', marginTop: '2rem' }}>
         <form onSubmit={handleSubmit} className="grid">
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem' }}>Select Position</label>
-            <select 
-              className="glass-input" 
-              value={selectedJob} 
-              onChange={e => setSelectedJob(e.target.value)}
-              required
-              style={{ width: '100%', background: 'var(--bg-dark)' }}
-            >
-              <option value="">-- Choose a Role --</option>
-              {jobs.map(job => (
-                <option key={job._id} value={job._id}>{job.title}</option>
-              ))}
-            </select>
-          </div>
+          {!jobId && (
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem' }}>Select Position</label>
+              <select 
+                className="glass-input" 
+                value={selectedJob} 
+                onChange={e => setSelectedJob(e.target.value)}
+                required
+                style={{ width: '100%', background: 'var(--bg-dark)' }}
+              >
+                <option value="">-- Choose a Role --</option>
+                {jobs.map(job => (
+                  <option key={job._id} value={job._id}>{job.title}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
             <div>

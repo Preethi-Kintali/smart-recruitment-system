@@ -5,7 +5,7 @@ const applicationSchema = new mongoose.Schema({
     candidateId: { type: mongoose.Schema.Types.ObjectId, ref: 'Candidate', required: true },
     status: { 
         type: String, 
-        enum: ['Applied', 'Screening', 'Interview', 'Selected', 'Rejected', 'On Hold'], 
+        enum: ['Applied', 'Screening', 'Shortlisted', 'Interview', 'Hired', 'Rejected'], 
         default: 'Applied' 
     },
     atsScore: { type: Number, default: 0 },
@@ -15,6 +15,9 @@ const applicationSchema = new mongoose.Schema({
         suggestions: { type: String },
         gapAnalysis: { type: String }
     },
+    interviewAnswers: { type: Map, of: String },
+    interviewReport: { type: String },
+    offerLetterUrl: { type: String },
     appliedAt: { type: Date, default: Date.now }
 });
 

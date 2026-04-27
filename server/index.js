@@ -20,12 +20,16 @@ const applicationRoutes = require('./routes/applications');
 const interviewRoutes = require('./routes/interviews');
 const decisionRoutes = require('./routes/decisions');
 const statsRoutes = require('./routes/stats');
+const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
 
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/interviews', interviewRoutes);
 app.use('/api/decisions', decisionRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Start Server
 mongoose.connect(process.env.MONGODB_URI)
