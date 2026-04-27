@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api, { BASE_URL } from '../api';
 import { User, Mail, Phone, Briefcase, GraduationCap, Award, FileText } from 'lucide-react';
 
 const Profile = () => {
@@ -12,9 +12,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/auth/profile', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
+      const res = await api.get('/auth/profile');
       setProfile(res.data);
     } catch (err) {
       console.error(err);
@@ -119,7 +117,7 @@ const Profile = () => {
                         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>Auto-extracted from your last application</p>
                       </div>
                     </div>
-                    <a href={`http://localhost:5000/${profileData.resumeUrl}`} target="_blank" rel="noreferrer" className="btn-primary" style={{ padding: '0.6rem 1.2rem', fontSize: '0.9rem' }}>
+                    <a href={`${BASE_URL}/${profileData.resumeUrl}`} target="_blank" rel="noreferrer" className="btn-primary" style={{ padding: '0.6rem 1.2rem', fontSize: '0.9rem' }}>
                       View PDF
                     </a>
                   </div>

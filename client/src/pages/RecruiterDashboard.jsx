@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Users, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const RecruiterDashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -19,7 +19,7 @@ const RecruiterDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/stats');
+      const res = await api.get('/stats');
       setStats(res.data);
     } catch (err) {
       console.error("Stats fetch error:", err);
@@ -28,7 +28,7 @@ const RecruiterDashboard = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/jobs');
+      const res = await api.get('/jobs');
       setJobs(res.data);
     } catch (err) {
       console.error(err);

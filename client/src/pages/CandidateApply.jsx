@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Upload, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../api';
 
 const CandidateApply = () => {
   const { jobId } = useParams();
@@ -30,7 +30,7 @@ const CandidateApply = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/jobs');
+      const res = await api.get('/jobs');
       setJobs(res.data);
     } catch (err) {
       console.error(err);
@@ -50,7 +50,7 @@ const CandidateApply = () => {
     Object.keys(formData).forEach(key => data.append(key, formData[key]));
 
     try {
-      const res = await axios.post('http://localhost:5000/api/applications', data);
+      const res = await api.post('/applications', data);
       setResult(res.data);
       setSubmitted(true);
     } catch (err) {

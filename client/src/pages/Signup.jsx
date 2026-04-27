@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { UserPlus, Mail, Lock, User, Briefcase, Phone, Building, GraduationCap, AlertCircle, CheckCircle } from 'lucide-react';
 
 const Signup = () => {
@@ -30,8 +30,8 @@ const Signup = () => {
     setError('');
     setLoading(true);
     try {
-      const endpoint = role === 'recruiter' ? '/api/auth/signup/recruiter' : '/api/auth/signup/candidate';
-      const res = await axios.post(`http://localhost:5000${endpoint}`, formData);
+      const endpoint = role === 'recruiter' ? '/auth/signup/recruiter' : '/auth/signup/candidate';
+      const res = await api.post(endpoint, formData);
       
       if (role === 'recruiter') {
         setSuccess(res.data.message);

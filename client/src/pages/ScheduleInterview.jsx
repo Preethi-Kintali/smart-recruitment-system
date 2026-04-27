@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Video, MapPin, Send } from 'lucide-react';
-import axios from 'axios';
+import api from '../api';
 
 const ScheduleInterview = () => {
   const { appId } = useParams();
@@ -17,7 +17,7 @@ const ScheduleInterview = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/interviews/schedule', {
+      await api.post('/interviews/schedule', {
         applicationId: appId,
         ...formData
       });

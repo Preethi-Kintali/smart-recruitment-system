@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Sparkles, Save, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../api';
 
 const CreateJob = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ const CreateJob = () => {
     if (!formData.title) return alert('Please enter a job title first');
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/jobs/generate-jd', {
+      const res = await api.post('/jobs/generate-jd', {
         title: formData.title,
         skills: formData.skills,
         experience: formData.experience
@@ -39,7 +39,7 @@ const CreateJob = () => {
     e.preventDefault();
     try {
       const skillsArray = formData.skills.split(',').map(s => s.trim());
-      await axios.post('http://localhost:5000/api/jobs', {
+      await api.post('/jobs', {
         ...formData,
         skills: skillsArray,
         recruiterId: user?.id || user?._id

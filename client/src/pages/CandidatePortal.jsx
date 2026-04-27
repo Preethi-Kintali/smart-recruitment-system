@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, Briefcase, DollarSign, ArrowRight, Filter } from 'lucide-react';
 
@@ -17,7 +17,7 @@ const CandidatePortal = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/jobs');
+      const res = await api.get('/jobs');
       setJobs(res.data);
     } catch (err) {
       console.error(err);

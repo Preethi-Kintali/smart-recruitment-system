@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Mic, Video, Send, CheckCircle, Loader2, Play } from 'lucide-react';
-import axios from 'axios';
+import api from '../api';
 
 const MockInterview = () => {
   const { appId } = useParams();
@@ -127,7 +127,7 @@ const MockInterview = () => {
 
   const fetchApplication = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/applications/job/all`);
+      const res = await api.get('/applications/job/all');
       const apps = Array.isArray(res.data) ? res.data : [];
       const app = apps.find(a => a._id === appId);
       setApplication(app);
@@ -151,7 +151,7 @@ const MockInterview = () => {
     setSubmitting(true);
     try {
       // In a real app, we'd send the full answers object to the server for AI analysis
-      await axios.put(`http://localhost:5000/api/applications/${appId}/status`, { 
+      await api.put(`/applications/${appId}/status`, { 
         status: 'Interview',
         interviewAnswers: answers 
       });

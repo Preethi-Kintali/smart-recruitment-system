@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Star, Clock, AlertTriangle, MessageSquare, Mail, Users, CheckCircle, XCircle, FileText } from 'lucide-react';
-import axios from 'axios';
+import api, { BASE_URL } from '../api';
 
 const ApplicantList = () => {
   const { jobId } = useParams();
@@ -16,8 +16,8 @@ const ApplicantList = () => {
   const fetchData = async () => {
     try {
       const [jobRes, appRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/jobs`),
-        axios.get(`http://localhost:5000/api/applications/job/${jobId}`)
+        api.get(`/jobs`),
+        api.get(`/applications/job/${jobId}`)
       ]);
       
       const jobs = Array.isArray(jobRes.data) ? jobRes.data : [];
@@ -36,7 +36,7 @@ const ApplicantList = () => {
 
   const updateStatus = async (appId, status, extra = {}) => {
     try {
-      await axios.put(`http://localhost:5000/api/applications/${appId}/status`, { status, ...extra });
+      await api.put(`/applications/${appId}/status`, { status, ...extra });
       fetchData();
     } catch (err) {
       alert('Failed to update status');
@@ -144,7 +144,7 @@ const ApplicantList = () => {
                 </button>
               )}
               {app.status === 'Hired' && app.offerLetterUrl && (
-                <a href={`http://localhost:5000${app.offerLetterUrl}`} target="_blank" rel="noreferrer" className="btn-primary" style={{ background: '#10b981' }}>
+                <a href={`${BASE_URL}${app.offerLetterUrl}`} target="_blank" rel="noreferrer" className="btn-primary" style={{ background: '#10b981' }}>
                   <FileText size={16} /> View Offer Letter
                 </a>
               )}

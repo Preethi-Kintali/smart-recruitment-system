@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Users, Briefcase, FileCheck, TrendingUp, UserPlus, Clock } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -12,9 +12,7 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/stats', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
+      const res = await api.get('/admin/stats');
       setStats(res.data);
     } catch (err) {
       console.error(err);

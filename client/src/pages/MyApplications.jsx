@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { Clock, CheckCircle, XCircle, AlertCircle, Info, ChevronRight } from 'lucide-react';
 
 const MyApplications = () => {
@@ -13,9 +13,7 @@ const MyApplications = () => {
 
   const fetchApplications = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/applications/my-applications', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
+      const res = await api.get('/applications/my-applications');
       setApplications(res.data);
     } catch (err) {
       console.error(err);

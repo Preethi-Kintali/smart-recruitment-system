@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Check, X, ShieldAlert, UserCheck, Search, Building } from 'lucide-react';
 
 const RecruiterManagement = () => {
@@ -13,9 +13,7 @@ const RecruiterManagement = () => {
 
   const fetchRecruiters = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/recruiters', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
+      const res = await api.get('/admin/recruiters');
       setRecruiters(res.data);
     } catch (err) {
       console.error(err);
@@ -26,9 +24,7 @@ const RecruiterManagement = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/recruiter/${id}/status`, { status }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
+      await api.put(`/admin/recruiter/${id}/status`, { status });
       fetchRecruiters();
     } catch (err) {
       alert('Failed to update status');

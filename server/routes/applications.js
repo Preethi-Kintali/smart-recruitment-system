@@ -177,7 +177,7 @@ router.put('/:id/status', async (req, res) => {
                 application.candidateId.email,
                 application.candidateId.fullName,
                 application.jobId.title,
-                `http://localhost:5000${offerUrl}`
+                `${process.env.BACKEND_URL}${offerUrl}`
             );
         } else if (status === 'Shortlisted') {
             await EmailService.sendShortlisted(
@@ -191,7 +191,7 @@ router.put('/:id/status', async (req, res) => {
                 application.candidateId.email,
                 application.candidateId.fullName,
                 application.jobId.title,
-                'http://localhost:5173/mock-interview/' + application._id
+                `${process.env.FRONTEND_URL}/mock-interview/${application._id}`
             );
         } else if (status === 'OfflineInterview') {
             const { date, place } = req.body;
