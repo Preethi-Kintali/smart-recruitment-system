@@ -303,12 +303,3 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-<div align="center">
-
-**Built with ❤️ by [Preethi Kintali](https://github.com/Preethi-Kintali)**
-
-⭐ Star this repo if you found it helpful!
-
-[![Live Demo](https://img.shields.io/badge/🚀_Try_Live_Demo-Click_Here-6366f1?style=for-the-badge)](https://smart-recruitment-system-phi.vercel.app)
-
-</div>
