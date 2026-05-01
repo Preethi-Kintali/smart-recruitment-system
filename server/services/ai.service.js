@@ -4,7 +4,7 @@ const fs = require('fs');
 dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const MODEL_NAME = "gemini-3-flash-preview";
+const MODEL_NAME = "gemini-1.5-flash";
 
 class AIService {
   async generateJD(title, skills, experience) {
