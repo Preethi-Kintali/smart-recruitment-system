@@ -29,6 +29,55 @@ router.get('/recruiters', authMiddleware(['admin']), async (req, res) => {
   }
 });
 
+// Get all candidates
+router.get('/candidates', authMiddleware(['admin']), async (req, res) => {
+  try {
+    const candidates = await User.find({ role: 'candidate' }).select('-password');
+    const profiles = await CandidateProfile.find();
+    
+    const merged = candidates.map(u => {
+      const profile = profiles.find(p => p.userId.toString() === u._id.toString());
+      return {
+        ...u._doc,
+        phone: profile?.phone,
+        education: profile?.education,
+        skills: profile?.skills,
+        experience: profile?.experience
+      };
+    });
+    
+    res.json(merged);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get all applications
+router.get('/applications', authMiddleware(['admin']), async (req, res) => {
+  try {
+    const applications = await Application.find()
+      .populate('jobId')
+      .populate('candidateId')
+      .sort({ appliedAt: -1 });
+    res.json(applications);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get hired candidates
+router.get('/hired', authMiddleware(['admin']), async (req, res) => {
+  try {
+    const hired = await Application.find({ status: 'Hired' })
+      .populate('jobId')
+      .populate('candidateId')
+      .sort({ updatedAt: -1 });
+    res.json(hired);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Update recruiter status
 router.put('/recruiter/:id/status', authMiddleware(['admin']), async (req, res) => {
   const { status } = req.body; // 'approved', 'rejected', 'blocked', 'active'
