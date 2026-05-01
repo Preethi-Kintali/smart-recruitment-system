@@ -233,6 +233,17 @@ npm run dev
 
 The app will be running at **http://localhost:5173**
 
+### 4. Default Admin Credentials
+To access the admin dashboard, you can use the following default credentials (after seeding the database):
+- **Email:** `admin@smartrecruit.com`
+- **Password:** `adminpassword123`
+
+To seed the admin user, run:
+```bash
+cd server
+node seedAdmin.js
+```
+
 ---
 
 ## 📧 Email Notifications Sent
